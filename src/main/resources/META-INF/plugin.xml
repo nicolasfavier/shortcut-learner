@@ -21,9 +21,20 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
+    <actions>
+        <action id="com.takima.shortcutlearner.MethodExtractActionListener"
+                class="com.takima.shortcutlearner.MethodExtractActionListener"
+                text="Extract Method Tracker"
+                description="Tracks usage of Extract Method action">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <postStartupActivity implementation="com.takima.shortcutlearner.ShortcutTrackerStartupActivity"/>
+        <projectService serviceImplementation="com.takima.shortcutlearner.ShortcutTrackerService"/>
+        <toolWindow id="ShortcutLearner" anchor="right" factoryClass="com.takima.shortcutlearner.ShortcutLearnerToolWindowFactory" />
     </extensions>
 </idea-plugin>
