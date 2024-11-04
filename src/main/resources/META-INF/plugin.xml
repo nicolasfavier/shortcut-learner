@@ -34,6 +34,7 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <postStartupActivity implementation="com.takima.shortcutlearner.ShortcutTrackerStartupActivity"/>
+        <projectService serviceImplementation="com.takima.shortcutlearner.ShortcutStateService"/>
         <projectService serviceImplementation="com.takima.shortcutlearner.ShortcutTrackerService"/>
         <toolWindow id="ShortcutLearner" anchor="right" factoryClass="com.takima.shortcutlearner.ShortcutLearnerToolWindowFactory" />
     </extensions>

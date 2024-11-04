@@ -11,33 +11,48 @@ import javax.swing.JPanel
 
 class ShortcutLearnerToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val shortcutPanel = ShortcutLearnerPanel()
-        toolWindow.contentManager.addContent(toolWindow.contentManager.factory.createContent(shortcutPanel, "Toto", false))
+        val shortcutPanel = ShortcutLearnerPanel(project)
+        toolWindow.contentManager.addContent(toolWindow.contentManager.factory.createContent(shortcutPanel, "Shortcuts", false))
     }
 }
 
-class ShortcutLearnerPanel : JPanel() {
-    private val shortcuts = mapOf(
-        "Extract Method" to JBCheckBox("Extract Method"),
-        "Rename" to JBCheckBox("Rename"),
-        "Reformat Code" to JBCheckBox("Reformat Code")
-    )
+class ShortcutLearnerPanel(project: Project) : JPanel() {
+    private val shortcutStateService = ShortcutStateService.getInstance(project)
+    private val checkboxes = Shortcut.values().associateWith {
+        JBCheckBox("<html>${it.displayName} : <i>${it.shortcut}</i></html>")
+    }
+
 
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
-        add(JLabel("Complete the following shortcuts:"))
 
-        // Ajouter chaque raccourci comme une checkbox dans le panneau
-        for ((_, checkBox) in shortcuts) {
+        val titleLabel = JLabel("Complete the following shortcuts:")
+        titleLabel.toolTipText = "This section helps you learn and practice keyboard shortcuts."
+        add(titleLabel)
+
+        for ((shortcut, checkBox) in checkboxes) {
+            val isSelected = shortcutStateService.isShortcutCompleted(shortcut.displayName)
+            checkBox.isSelected = isSelected
+            checkBox.isFocusable = false
+            checkBox.isOpaque = false
+            checkBox.addActionListener { checkBox.isSelected = isSelected }
+
+
+            if (checkBox.isSelected) {
+                checkBox.foreground = Colors.DARK_GREEN
+            }
+
             add(checkBox)
         }
     }
 
-    // Méthode pour marquer le raccourci comme complété
-    fun markShortcutCompleted(shortcut: String) {
-        shortcuts[shortcut]?.apply {
-            isSelected = true
-            foreground = Colors.DARK_GREEN
+    fun markShortcutCompleted(shortcut: Shortcut) {
+        shortcut.let {
+            checkboxes[it]?.apply {
+                isSelected = true
+                foreground = Colors.DARK_GREEN
+                shortcutStateService.markShortcutAsCompleted(it.displayName) // Mettre à jour l'état persistant
+            }
         }
     }
 }
