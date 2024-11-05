@@ -1,16 +1,17 @@
-package com.takima.shortcutlearner
+package com.takima.shortcutlearner.state
 
 import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
+@Service(Service.Level.PROJECT)
 @State(
     name = "ShortcutStateService",
     storages = [Storage("ShortcutLearner.xml")]
 )
 class ShortcutStateService : PersistentStateComponent<ShortcutStateService.State> {
 
-    // L'état à sauvegarder, ici les raccourcis complétés
     data class State(
         var completedShortcuts: MutableSet<String> = mutableSetOf()
     )
@@ -23,18 +24,15 @@ class ShortcutStateService : PersistentStateComponent<ShortcutStateService.State
         myState = state
     }
 
-    // Marque un raccourci comme complété
     fun markShortcutAsCompleted(shortcut: String) {
         myState.completedShortcuts.add(shortcut)
     }
 
-    // Vérifie si un raccourci est complété
     fun isShortcutCompleted(shortcut: String): Boolean {
         return myState.completedShortcuts.contains(shortcut)
     }
 
     companion object {
-        // Permet d'obtenir le service dans un projet
         fun getInstance(project: com.intellij.openapi.project.Project): ShortcutStateService {
             return project.getService(ShortcutStateService::class.java)
         }

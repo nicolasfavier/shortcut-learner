@@ -1,41 +1,18 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.takima.shortcut-learner</id>
+    <name>Shortcut Learner</name>
 
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Shortcut-learner</name>
+    <vendor email="nfavier@takima.fr" url="https://www.yourcompany.com">Takima</vendor>
 
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
-
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Learn an practice simple shortcuts.
+    Apprendre les raccourcis de base, pour maitriser son IDE.
 ]]></description>
 
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <actions>
-        <action id="com.takima.shortcutlearner.MethodExtractActionListener"
-                class="com.takima.shortcutlearner.MethodExtractActionListener"
-                text="Extract Method Tracker"
-                description="Tracks usage of Extract Method action">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-        </action>
-    </actions>
-
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <postStartupActivity implementation="com.takima.shortcutlearner.ShortcutTrackerStartupActivity"/>
-        <projectService serviceImplementation="com.takima.shortcutlearner.ShortcutStateService"/>
-        <projectService serviceImplementation="com.takima.shortcutlearner.ShortcutTrackerService"/>
-        <toolWindow id="ShortcutLearner" anchor="right" factoryClass="com.takima.shortcutlearner.ShortcutLearnerToolWindowFactory" />
+        <toolWindow id="ShortcutLearner" anchor="right"
+                    factoryClass="com.takima.shortcutlearner.view.ShortcutLearnerToolWindowFactory"/>
     </extensions>
 </idea-plugin>
