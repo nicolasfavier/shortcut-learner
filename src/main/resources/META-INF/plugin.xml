@@ -6,7 +6,7 @@
     <vendor email="niko.favier@gmail.com" url="https://github.com/nicolasfavier">Nicolas Favier</vendor>
 
     <description><![CDATA[
-    Apprendre les raccourcis de base, pour maitriser son IDE.
+Learn the basic shortcuts to master your IDE.
 ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
