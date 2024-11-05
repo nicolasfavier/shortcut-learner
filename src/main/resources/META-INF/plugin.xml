@@ -1,8 +1,9 @@
 <idea-plugin>
     <id>com.takima.shortcut-learner</id>
     <name>Shortcut Learner</name>
+    <version>1.0.0</version>
 
-    <vendor email="nfavier@takima.fr" url="https://www.yourcompany.com">Takima</vendor>
+    <vendor email="niko.favier@gmail.com" url="https://github.com/nicolasfavier">Nicolas Favier</vendor>
 
     <description><![CDATA[
     Apprendre les raccourcis de base, pour maitriser son IDE.
