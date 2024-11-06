@@ -1,16 +1,18 @@
 package com.takima.shortcutlearner.view
 
 import com.intellij.openapi.project.Project
-import com.intellij.ui.Colors
 import com.intellij.ui.components.JBCheckBox
 import com.takima.shortcutlearner.model.Shortcut
 import com.takima.shortcutlearner.state.ShortcutStateService
+import java.awt.Color
 import java.awt.FlowLayout
 import java.awt.Font
 import javax.swing.BorderFactory
 import javax.swing.BoxLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
+
+private const val GREEN = "#39B25A"
 
 class ShortcutLearnerPanel(project: Project) : JPanel() {
     private val shortcutStateService = ShortcutStateService.getInstance(project)
@@ -56,22 +58,24 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
         checkBox.addActionListener { checkBox.isSelected = isSelected }
 
         if (checkBox.isSelected) {
-            checkBox.foreground = Colors.DARK_GREEN
+            checkBox.foreground = Color.decode(GREEN)
         }
         return checkBox
-    }
-
-    private fun getCheckboxLabel(shortcut: Shortcut, shortcutCount: Int): String {
-        val countStr = if (shortcutCount > 0) "(<b>$shortcutCount times</b>)" else ""
-        return "<html>${shortcut.displayName} : <i>${shortcut.shortcut}</i> $countStr</html>"
     }
 
     fun updateShortcutCountDisplay(shortcut: Shortcut, count: Int) {
         checkboxes[shortcut]?.apply {
             isSelected = true
-            foreground = Colors.DARK_GREEN
-            text =
-                "<html>${shortcut.displayName} : <i>${shortcut.shortcut}</i> (<b>$count times</b>)</html>"
+            foreground = Color.decode(GREEN)
+            text = getCheckboxLabel(shortcut, count)
         }
+    }
+
+    private fun getCheckboxLabel(shortcut: Shortcut, shortcutCount: Int): String {
+        val countStr = if (shortcutCount > 0) "(<b>$shortcutCount times</b>)" else ""
+        val isMac = System.getProperty("os.name").contains("mac", true)
+
+        val shortcutForOs = if (isMac) shortcut.shortcutMac else shortcut.shortcut
+        return "<html>${shortcut.displayName} : <i>$shortcutForOs</i> $countStr</html>"
     }
 }
