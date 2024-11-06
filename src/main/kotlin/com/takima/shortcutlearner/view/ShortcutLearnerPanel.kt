@@ -32,7 +32,6 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
 
         shortcuts.forEach { shortcut ->
             val checkBox = createCheckbox(shortcut)
-            add(checkBox)
             categoryPanel.add(checkBox)
             checkboxes[shortcut] = checkBox
         }
@@ -47,8 +46,10 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
     }
 
     private fun createCheckbox(shortcut: Shortcut): JBCheckBox {
-        val checkBox = JBCheckBox("<html>${shortcut.displayName} : <i>${shortcut.shortcut}</i></html>")
-        val isSelected = shortcutStateService.isShortcutCompleted(shortcut.displayName)
+        val shortcutCount = shortcutStateService.getShortcutCount(shortcut)
+        val label = getCheckboxLabel(shortcut, shortcutCount)
+        val checkBox = JBCheckBox(label)
+        val isSelected = shortcutCount > 0
         checkBox.isSelected = isSelected
         checkBox.isFocusable = false
         checkBox.isOpaque = false
@@ -60,13 +61,17 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
         return checkBox
     }
 
-    fun markShortcutCompleted(shortcut: Shortcut) {
-        shortcut.let {
-            checkboxes[it]?.apply {
-                isSelected = true
-                foreground = Colors.DARK_GREEN
-                shortcutStateService.markShortcutAsCompleted(it.displayName)
-            }
+    private fun getCheckboxLabel(shortcut: Shortcut, shortcutCount: Int): String {
+        val countStr = if (shortcutCount > 0) "(<b>$shortcutCount times</b>)" else ""
+        return "<html>${shortcut.displayName} : <i>${shortcut.shortcut}</i> $countStr</html>"
+    }
+
+    fun updateShortcutCountDisplay(shortcut: Shortcut, count: Int) {
+        checkboxes[shortcut]?.apply {
+            isSelected = true
+            foreground = Colors.DARK_GREEN
+            text =
+                "<html>${shortcut.displayName} : <i>${shortcut.shortcut}</i> (<b>$count times</b>)</html>"
         }
     }
 }
