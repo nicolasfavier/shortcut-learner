@@ -1,5 +1,6 @@
 package com.takima.shortcutlearner.view
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBCheckBox
 import com.takima.shortcutlearner.model.Shortcut
@@ -64,10 +65,12 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
     }
 
     fun updateShortcutCountDisplay(shortcut: Shortcut, count: Int) {
-        checkboxes[shortcut]?.apply {
-            isSelected = true
-            foreground = Color.decode(GREEN)
-            text = getCheckboxLabel(shortcut, count)
+        ApplicationManager.getApplication().invokeLater {
+            checkboxes[shortcut]?.apply {
+                isSelected = true
+                foreground = Color.decode(GREEN)
+                text = getCheckboxLabel(shortcut, count)
+            }
         }
     }
 
