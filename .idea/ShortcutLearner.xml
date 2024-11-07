@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ShortcutStateService">
+    <option name="completedShortcuts">
+      <set>
+        <option value="Naviguer vers la position précédente" />
+        <option value="Naviguer vers la position suivante" />
+        <option value="Extraire une variable" />
+        <option value="Fermer un fichier" />
+      </set>
+    </option>
+  </component>
+</project>
