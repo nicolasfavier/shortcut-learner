@@ -1,8 +1,10 @@
 package com.takima.shortcutlearner.view
 
+import com.github.weisj.jsvg.f
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBCheckBox
+import com.intellij.ui.components.JBScrollPane
 import com.takima.shortcutlearner.model.Shortcut
 import com.takima.shortcutlearner.state.ShortcutStateService
 import java.awt.Color
@@ -12,6 +14,8 @@ import javax.swing.BorderFactory
 import javax.swing.BoxLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.JScrollPane
+
 
 private const val GREEN = "#39B25A"
 
@@ -22,11 +26,20 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
 
+        val contentPanel = JPanel()
+        contentPanel.layout = BoxLayout(contentPanel, BoxLayout.Y_AXIS)
+
         val shortcutsByCategory = Shortcut.values().groupBy { it.cat }
         for ((category, shortcuts) in shortcutsByCategory) {
             val categoryPanel = createCategoryPanel(category, shortcuts)
-            add(categoryPanel)
+            contentPanel.add(categoryPanel)
         }
+
+        val scrollPane = JBScrollPane(contentPanel)
+        scrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        scrollPane.horizontalScrollBarPolicy = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+
+        add(scrollPane)
     }
 
     private fun createCategoryPanel(category: String, shortcuts: List<Shortcut>): JPanel {

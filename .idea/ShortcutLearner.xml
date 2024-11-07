@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ShortcutStateService">
+    <option name="shortcutCounts">
+      <map>
+        <entry key="CLOSE" value="1" />
+        <entry key="COMMENT" value="2" />
+        <entry key="DUPLICATE" value="7" />
+        <entry key="FORMAT" value="1" />
+        <entry key="FULL_SEARCH" value="1" />
+        <entry key="NAVIGATE_TO_PREVIOUS_LOCATION" value="5" />
+        <entry key="OPTIMISE_IMPORT" value="1" />
+      </map>
+    </option>
+  </component>
+</project>
