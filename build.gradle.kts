@@ -14,13 +14,11 @@ plugins {
 }
 
 group = "com.takima"
-version = "1.7.0"
+version = "1.7.1"
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("2024.2.4")
-
-        bundledPlugin("com.intellij.java")
+        intellijIdeaCommunity("2024.3")
 
         pluginVerifier()
         zipSigner()
@@ -43,6 +41,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("232")
+        untilBuild.set(provider { null })
     }
 
     signPlugin {
