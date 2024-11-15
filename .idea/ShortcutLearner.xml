@@ -3,7 +3,7 @@
   <component name="ShortcutStateService">
     <option name="shortcutCounts">
       <map>
-        <entry key="CLOSE" value="1" />
+        <entry key="CLOSE" value="2" />
         <entry key="COMMENT" value="2" />
         <entry key="COPY_HISTORY" value="2" />
         <entry key="DUPLICATE" value="40" />

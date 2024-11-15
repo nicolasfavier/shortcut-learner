@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "com.takima"
-version = "1.5.0"
+version = "1.7.0"
 
 dependencies {
     intellijPlatform {
@@ -42,8 +42,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("242")
-        untilBuild.set("242.*")
+        sinceBuild.set("232")
     }
 
     signPlugin {

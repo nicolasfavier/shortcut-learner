@@ -94,4 +94,5 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
         val shortcutForOs = if (isMac) shortcut.shortcutMac else shortcut.shortcut
         return "<html>${shortcut.displayName} : <i>$shortcutForOs</i> $countStr</html>"
     }
+
 }
