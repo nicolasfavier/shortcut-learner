@@ -1,7 +1,7 @@
 <idea-plugin require-restart="true">
     <id>com.takima.shortcut-learner</id>
     <name>Shortcut Learner</name>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 
     <vendor email="niko.favier@gmail.com" url="https://github.com/nicolasfavier">Nicolas Favier</vendor>
 
