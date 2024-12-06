@@ -1,7 +1,8 @@
 package com.takima.shortcutlearner.view
 
-import com.github.weisj.jsvg.f
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.keymap.KeymapManager
+import com.intellij.openapi.keymap.KeymapUtil
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBScrollPane
@@ -16,7 +17,6 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JScrollPane
 
-
 private const val GREEN = "#39B25A"
 
 class ShortcutLearnerPanel(project: Project) : JPanel() {
@@ -29,7 +29,7 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
         val contentPanel = JPanel()
         contentPanel.layout = BoxLayout(contentPanel, BoxLayout.Y_AXIS)
 
-        val shortcutsByCategory = Shortcut.values().groupBy { it.cat }
+        val shortcutsByCategory = Shortcut.entries.groupBy { it.category }
         for ((category, shortcuts) in shortcutsByCategory) {
             val categoryPanel = createCategoryPanel(category, shortcuts)
             contentPanel.add(categoryPanel)
@@ -89,10 +89,21 @@ class ShortcutLearnerPanel(project: Project) : JPanel() {
 
     private fun getCheckboxLabel(shortcut: Shortcut, shortcutCount: Int): String {
         val countStr = if (shortcutCount > 0) "(<b>$shortcutCount times</b>)" else ""
-        val isMac = System.getProperty("os.name").contains("mac", true)
+        val keymap = KeymapManager.getInstance().activeKeymap
 
-        val shortcutForOs = if (isMac) shortcut.shortcutMac else shortcut.shortcut
-        return "<html>${shortcut.displayName} : <i>$shortcutForOs</i> $countStr</html>"
+        val shortcuts = keymap.getShortcuts(shortcut.actionId).joinToString(" or ") {
+            val shortcutText = KeymapUtil.getShortcutText(it)
+            formatShortcutText(shortcutText)
+        }
+
+        return "<html>${shortcut.displayName} : <i>$shortcuts</i> $countStr</html>"
     }
 
+    private fun formatShortcutText(shortcutText: String): String {
+        return if (shortcutText.contains("Button")) {
+            shortcutText.replace("Button", "Mousse Btn").replace("Click", "")
+        } else {
+            shortcutText
+        }
+    }
 }

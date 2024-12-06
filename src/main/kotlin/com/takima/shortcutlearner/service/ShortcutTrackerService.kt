@@ -25,29 +25,10 @@ class ShortcutTrackerService {
         connection.subscribe(AnActionListener.TOPIC, object : AnActionListener {
             override fun beforeActionPerformed(action: AnAction, event: AnActionEvent) {
                 super.beforeActionPerformed(action, event)
-
-                when (event.actionManager.getId(action)) {
-                    "IntroduceVariable" -> updateShortcutCount(Shortcut.EXTRACT_VARIABLE, shortcutPanel)
-                    "IntroduceConstant" -> updateShortcutCount(Shortcut.EXTRACT_CONST, shortcutPanel)
-                    "ExtractMethod" -> updateShortcutCount(Shortcut.EXTRACT_METHOD, shortcutPanel)
-                    "IntroduceParameter" -> updateShortcutCount(Shortcut.EXTRACT_PARAM, shortcutPanel)
-                    "RenameElement" -> updateShortcutCount(Shortcut.RENAME, shortcutPanel)
-                    "EditorDuplicate" -> updateShortcutCount(Shortcut.DUPLICATE, shortcutPanel)
-                    "SearchEverywhere" -> updateShortcutCount(Shortcut.FIND_ACTION, shortcutPanel)
-                    "RecentFiles" -> updateShortcutCount(Shortcut.NAVIGATE_RECENT_FILE, shortcutPanel)
-                    "Back" -> updateShortcutCount(Shortcut.NAVIGATE_TO_PREVIOUS_LOCATION, shortcutPanel)
-                    "Forward" -> updateShortcutCount(Shortcut.NAVIGATE_TO_NEXT_LOCATION, shortcutPanel)
-                    "SelectNextOccurrence" -> updateShortcutCount(Shortcut.SELECT_NEXT_OCCURRENCE, shortcutPanel)
-                    "EditorSelectWord" -> updateShortcutCount(Shortcut.EXTEND_SELECTION, shortcutPanel)
-                    "CloseEditor" -> updateShortcutCount(Shortcut.CLOSE, shortcutPanel)
-                    "ReformatCode" -> updateShortcutCount(Shortcut.FORMAT, shortcutPanel)
-                    "OptimizeImports" -> updateShortcutCount(Shortcut.OPTIMISE_IMPORT, shortcutPanel)
-                    "FindInPath" -> updateShortcutCount(Shortcut.FULL_SEARCH, shortcutPanel)
-                    "PasteMultiple" -> updateShortcutCount(Shortcut.COPY_HISTORY, shortcutPanel)
-                    "CommentByLineComment" -> updateShortcutCount(Shortcut.COMMENT, shortcutPanel)
-                }
-                if (action.templateText.equals("Close Tab")) {
-                    updateShortcutCount(Shortcut.CLOSE, shortcutPanel)
+                val actionId = event.actionManager.getId(action)
+                val shortcut = Shortcut.entries.find { it.actionId == actionId }
+                if (shortcut != null) {
+                    updateShortcutCount(shortcut, shortcutPanel)
                 }
             }
 
